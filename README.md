@@ -1,0 +1,1 @@
+# ftpserver-maven-plugin [![Build Status](https://travis-ci.org/daknin/ftpserver-maven-plugin.svg?branch=master)](https://travis-ci.org/daknin/ftpserver-maven-plugin) [![codecov.io](https://codecov.io/github/daknin/ftpserver-maven-plugin/coverage.svg?branch=master)](https://codecov.io/github/daknin/ftpserver-maven-plugin?branch=master)
