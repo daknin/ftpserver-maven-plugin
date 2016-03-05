@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ftpserver="http://mina.apache.org/ftpserver/spring/v1"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   http://mina.apache.org/ftpserver/spring/v1 http://mina.apache.org/ftpserver/ftpserver-1.0.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder/>
+
+    <ftpserver:server id="ftpServer">
+        <ftpserver:listeners>
+            <ftpserver:listener name="default">
+                <ref bean="nioListener"/>
+            </ftpserver:listener>
+        </ftpserver:listeners>
+        <ftpserver:file-user-manager url="classpath:users.properties" encrypt-passwords="false"/>
+    </ftpserver:server>
+
+    <bean id="listenerFactory" class="org.apache.ftpserver.listener.ListenerFactory">
+        <property name="port" value="${ftp.server.port}"/>
+        <property name="dataConnectionConfiguration">
+            <bean factory-bean="dataConnectionConfigurationFactory"
+                  factory-method="createDataConnectionConfiguration"/>
+        </property>
+    </bean>
+
+    <bean id="dataConnectionConfigurationFactory" class="org.apache.ftpserver.DataConnectionConfigurationFactory"/>
+    <bean id="nioListener" factory-bean="listenerFactory" factory-method="createListener"/>
+</beans>
