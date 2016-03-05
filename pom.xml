@@ -8,7 +8,7 @@
     <packaging>maven-plugin</packaging>
 
     <name>Apache FTP server launcher</name>
-    <description>A maven plugin that configures a runs an Apache FTP Server instance within a maven lifecycle.
+    <description>A Maven plugin that configures a runs an Apache FTP Server instance within a maven lifecycle.
     </description>
     <url>https://github.com/daknin/ftpserver-maven-plugin</url>
 
