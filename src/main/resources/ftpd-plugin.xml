@@ -16,7 +16,9 @@
                 <ref bean="nioListener"/>
             </ftpserver:listener>
         </ftpserver:listeners>
-        <ftpserver:file-user-manager url="classpath:users.properties" encrypt-passwords="false"/>
+        <ftpserver:user-manager>
+            <ref bean="userManager"/>
+        </ftpserver:user-manager>
     </ftpserver:server>
 
     <bean id="listenerFactory" class="org.apache.ftpserver.listener.ListenerFactory">
@@ -27,6 +29,21 @@
         </property>
     </bean>
 
+    <bean id="ftpServerProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="ftp.server.root">${ftp.server.root}</prop>
+                <prop key="ftp.server.port">${ftp.server.port}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="userManager" factory-bean="userManagerFactory" factory-method="createUserManager"/>
+
+    <bean id="userManagerFactory" class="com.github.daknin.ftpserver.plugin.XpropertiesUserManagerFactory">
+        <property name="url" value="classpath:users.properties"/>
+        <property name="properties" ref="ftpServerProperties"/>
+    </bean>
     <bean id="dataConnectionConfigurationFactory" class="org.apache.ftpserver.DataConnectionConfigurationFactory"/>
     <bean id="nioListener" factory-bean="listenerFactory" factory-method="createListener"/>
 </beans>

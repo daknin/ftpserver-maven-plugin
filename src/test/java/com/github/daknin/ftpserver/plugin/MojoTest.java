@@ -24,9 +24,7 @@ public class MojoTest {
         startMojo.setMavenProject(project);
         startMojo.setServerRoot(new File(userDir + "/target/ftpserver"));
         startMojo.setConfigLocation("classpath:ftpd-plugin.xml");
-        Properties ftpdProperties = new Properties();
-        ftpdProperties.setProperty("ftp.server.port", "2121");
-        startMojo.setFtpdProperties(ftpdProperties);
+        startMojo.setPort(2121);
         startMojo.execute();
 
         FTPClient ftp = new FTPClient();
@@ -42,6 +40,6 @@ public class MojoTest {
 
         stopMojo.execute();
 
-        //assertNull(QpidBroker.getBroker());
+        //assertNull(mojo.getServer);
     }
 }

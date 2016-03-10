@@ -13,7 +13,7 @@ public class FtpServerStopMojo extends AbstractFtpServerMojo {
 
     public void execute() throws MojoFailureException {
 
-        getLog().debug("Stopping FTP server...");
+        getLog().info("Stopping FTP server...");
         Properties properties = null;
         if (mavenProject != null) {
             properties = mavenProject.getProperties();

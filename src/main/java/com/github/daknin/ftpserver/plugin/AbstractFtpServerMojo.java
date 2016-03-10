@@ -15,11 +15,11 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
     @Parameter(property = "configLocation", defaultValue = "classpath:ftpd-plugin.xml")
     protected String configLocation;
 
-    @Parameter(property = "ftpdProperties")
-    protected Properties ftpdProperties;
-
     @Parameter(property = "serverRoot", defaultValue = "${project.build.directory}/ftpserver/")
     protected File serverRoot;
+
+    @Parameter(property = "port", defaultValue = "2121")
+    protected int port;
 
     @Parameter(property = "skip", defaultValue = "false")
     private boolean skip;
@@ -30,14 +30,6 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
 
     public void setConfigLocation(String configLocation) {
         this.configLocation = configLocation;
-    }
-
-    public Properties getFtpdProperties() {
-        return ftpdProperties;
-    }
-
-    public void setFtpdProperties(Properties ftpdProperties) {
-        this.ftpdProperties = ftpdProperties;
     }
 
     public File getServerRoot() {
@@ -62,5 +54,13 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
 
     public void setMavenProject(MavenProject mavenProject) {
         this.mavenProject = mavenProject;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }

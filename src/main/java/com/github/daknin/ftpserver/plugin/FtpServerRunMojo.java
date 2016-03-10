@@ -41,12 +41,15 @@ public class FtpServerRunMojo extends AbstractFtpServerMojo {
     }
 
     private void initServer() throws MojoFailureException {
-        getLog().debug("About to start FTP server...");
-        getLog().debug("Using XML configuration file " + configLocation + "...");
+        getLog().info("About to start FTP server...");
+        getLog().info("Using XML configuration file " + configLocation + "...");
         GenericApplicationContext ctx = new GenericApplicationContext();
         ResourceLoader resourceLoader = new DefaultResourceLoader();
         XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
         xmlReader.loadBeanDefinitions(resourceLoader.getResource(configLocation));
+        Properties ftpdProperties = new Properties();
+        ftpdProperties.setProperty("ftp.server.port", String.valueOf(port));
+        ftpdProperties.setProperty("ftp.server.root", serverRoot.getAbsolutePath());
         PropertiesPropertySource ftpdPropertiesPropertySource = new PropertiesPropertySource("ftpdPropertiesPropertySource", ftpdProperties);
         ctx.getEnvironment().getPropertySources().addLast(ftpdPropertiesPropertySource);
         ctx.refresh();
@@ -54,6 +57,7 @@ public class FtpServerRunMojo extends AbstractFtpServerMojo {
         server = getServer(ctx);
         if (server != null) {
             getLog().info("FTP server started on port " + ((DefaultFtpServer) server).getListener("default").getPort());
+            getLog().info("FTP server root is " + serverRoot.getAbsolutePath());
         } else {
             throw new MojoFailureException("XML configuration does not contain a server configuration");
         }
