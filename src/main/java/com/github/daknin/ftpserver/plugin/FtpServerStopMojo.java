@@ -12,35 +12,35 @@ import java.util.Properties;
 public class FtpServerStopMojo extends AbstractFtpServerMojo {
 
     public void execute() throws MojoFailureException {
-
-        getLog().info("Stopping FTP server...");
-        Properties properties = null;
-        if (mavenProject != null) {
-            properties = mavenProject.getProperties();
-        } else {
-            throw new MojoFailureException("Can't access maven project to stop FTP server (null)");
-        }
-
-        if (properties != null) {
-            FtpServer ftpServer;
-            try {
-                ftpServer = (FtpServer) properties.get(FtpServerConstants.FTPSERVER_KEY);
-            } catch (ClassCastException e) {
-                throw new MojoFailureException("Context doesn't contain a valid ftp server instance", e);
-            }
-            if (ftpServer == null) {
-                throw new MojoFailureException("Context doesn't contain any ftp server instance");
-            }
-            if (!ftpServer.isStopped()) {
-                ftpServer.stop();
-                getLog().info("FTP server stopped.");
+        if (!skip) {
+            getLog().info("Stopping FTP server...");
+            Properties properties = null;
+            if (mavenProject != null) {
+                properties = mavenProject.getProperties();
             } else {
-                getLog().info("FTP server was stopped already");
+                throw new MojoFailureException("Can't access maven project to stop FTP server (null)");
             }
-        } else {
-            throw new MojoFailureException("Maven project has null properties", new NullPointerException());
-        }
 
+            if (properties != null) {
+                FtpServer ftpServer;
+                try {
+                    ftpServer = (FtpServer) properties.get(FtpServerConstants.FTPSERVER_KEY);
+                } catch (ClassCastException e) {
+                    throw new MojoFailureException("Context doesn't contain a valid ftp server instance", e);
+                }
+                if (ftpServer == null) {
+                    throw new MojoFailureException("Context doesn't contain any ftp server instance");
+                }
+                if (!ftpServer.isStopped()) {
+                    ftpServer.stop();
+                    getLog().info("FTP server stopped.");
+                } else {
+                    getLog().info("FTP server was stopped already");
+                }
+            } else {
+                throw new MojoFailureException("Maven project has null properties", new NullPointerException());
+            }
+        }
     }
 
 }

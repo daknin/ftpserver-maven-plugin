@@ -23,20 +23,22 @@ public class FtpServerRunMojo extends AbstractFtpServerMojo {
     private ListenerFactory factory;
 
     public void execute() throws MojoFailureException {
-        getLog().info("Server root is " + serverRoot.getPath());
-        boolean serverRootExists = serverRoot.exists();
-        if (!serverRootExists) {
-            serverRootExists = serverRoot.mkdir();
-        }
-        if (serverRootExists) {
-            initServer();
-            try {
-                server.start();
-            } catch (FtpException e) {
-                throw new MojoFailureException("Failed to start FTP server", e);
+        if (!skip) {
+            getLog().info("Server root is " + serverRoot.getPath());
+            boolean serverRootExists = serverRoot.exists();
+            if (!serverRootExists) {
+                serverRootExists = serverRoot.mkdir();
             }
-        } else {
-            throw new MojoFailureException("Failed to create FTP root " + serverRoot.getPath());
+            if (serverRootExists) {
+                initServer();
+                try {
+                    server.start();
+                } catch (FtpException e) {
+                    throw new MojoFailureException("Failed to start FTP server", e);
+                }
+            } else {
+                throw new MojoFailureException("Failed to create FTP root " + serverRoot.getPath());
+            }
         }
     }
 
@@ -50,6 +52,8 @@ public class FtpServerRunMojo extends AbstractFtpServerMojo {
         Properties ftpdProperties = new Properties();
         ftpdProperties.setProperty("ftp.server.port", String.valueOf(port));
         ftpdProperties.setProperty("ftp.server.root", serverRoot.getAbsolutePath());
+        ftpdProperties.setProperty("ftp.server.username", username);
+        ftpdProperties.setProperty("ftp.server.password", "admin");
         PropertiesPropertySource ftpdPropertiesPropertySource = new PropertiesPropertySource("ftpdPropertiesPropertySource", ftpdProperties);
         ctx.getEnvironment().getPropertySources().addLast(ftpdPropertiesPropertySource);
         ctx.refresh();

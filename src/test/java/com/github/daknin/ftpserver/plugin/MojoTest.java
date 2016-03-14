@@ -24,6 +24,8 @@ public class MojoTest {
         startMojo.setMavenProject(project);
         startMojo.setServerRoot(new File(userDir + "/target/ftpserver"));
         startMojo.setConfigLocation("classpath:ftpd-plugin.xml");
+        startMojo.setUsername("admin");
+        startMojo.setPassword("admin");
         startMojo.setPort(2121);
         startMojo.execute();
 

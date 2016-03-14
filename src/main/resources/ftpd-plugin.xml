@@ -3,10 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:ftpserver="http://mina.apache.org/ftpserver/spring/v1"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	   http://mina.apache.org/ftpserver/spring/v1 http://mina.apache.org/ftpserver/ftpserver-1.0.xsd
-	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder/>
 
@@ -29,20 +29,30 @@
         </property>
     </bean>
 
-    <bean id="ftpServerProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <bean id="userProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
-                <prop key="ftp.server.root">${ftp.server.root}</prop>
-                <prop key="ftp.server.port">${ftp.server.port}</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.userpassword">${ftp.server.password}</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.homedirectory">${ftp.server.root}</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.enableflag">true</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.writepermission">true</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.maxloginnumber">0</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.maxloginperip">0</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.idletime">0</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.uploadrate">0</prop>
+                <prop key="ftpserver.user.${ftp.server.username}.downloadrate">0</prop>
             </props>
         </property>
     </bean>
 
     <bean id="userManager" factory-bean="userManagerFactory" factory-method="createUserManager"/>
 
-    <bean id="userManagerFactory" class="com.github.daknin.ftpserver.plugin.XpropertiesUserManagerFactory">
-        <property name="url" value="classpath:users.properties"/>
-        <property name="properties" ref="ftpServerProperties"/>
+    <bean id="userManagerFactory" class="com.github.daknin.ftpserver.plugin.PropertiesUserManagerFactory">
+        <property name="adminName" value="${ftp.server.username}"/>
+        <property name="userProperties" ref="userProperties"/>
+        <property name="passwordEncryptor">
+            <bean class="org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor"/>
+        </property>
     </bean>
     <bean id="dataConnectionConfigurationFactory" class="org.apache.ftpserver.DataConnectionConfigurationFactory"/>
     <bean id="nioListener" factory-bean="listenerFactory" factory-method="createListener"/>

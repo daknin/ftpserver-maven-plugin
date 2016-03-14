@@ -19,8 +19,6 @@
 
 package com.github.daknin.ftpserver.plugin;
 
-import java.io.File;
-import java.net.URL;
 import java.util.Properties;
 
 import org.apache.ftpserver.ftplet.UserManager;
@@ -34,15 +32,11 @@ import org.apache.ftpserver.usermanager.UserManagerFactory;
  *
  * @author <a href="http://mina.apache.org">Apache MINA Project</a>
  */
-public class XpropertiesUserManagerFactory implements UserManagerFactory {
+public class PropertiesUserManagerFactory implements UserManagerFactory {
 
-    private String adminName = "admin";
+    private String username;
 
-    private File userDataFile;
-
-    private URL userDataURL;
-
-    private Properties properties;
+    private Properties userProperties;
 
     private PasswordEncryptor passwordEncryptor = new ClearTextPasswordEncryptor();
 
@@ -50,14 +44,7 @@ public class XpropertiesUserManagerFactory implements UserManagerFactory {
      * Creates a {@link PropertiesUserManager} instance based on the provided configuration
      */
     public UserManager createUserManager() {
-        if (userDataURL != null) {
-            return new XpropertiesUserManager(passwordEncryptor, userDataURL,
-                    adminName, properties);
-        } else {
-
-            return new XpropertiesUserManager(passwordEncryptor, userDataFile,
-                    adminName, properties);
-        }
+            return new PropertiesUserManager(passwordEncryptor, username, userProperties);
     }
 
     /**
@@ -65,56 +52,18 @@ public class XpropertiesUserManagerFactory implements UserManagerFactory {
      * @return The admin user name
      */
     public String getAdminName() {
-        return adminName;
+        return username;
     }
 
     /**
-     * Set the name to use as the administrator of the server. The default value
-     * is "admin".
-     * 
+     *
      * @param adminName
-     *            The administrator user name
+     *            The  user name
      */
     public void setAdminName(String adminName) {
-        this.adminName = adminName;
+        this.username = username;
     }
 
-    /**
-     * Retrieve the file used to load and store users
-     * @return The file
-     */
-    public File getFile() {
-        return userDataFile;
-    }
-
-    /**
-     * Set the file used to store and read users. 
-     * 
-     * @param propFile
-     *            A file containing users
-     */
-    public void setFile(File propFile) {
-        this.userDataFile = propFile;
-    }
-
-    /**
-     * Retrieve the URL used to load and store users
-     * @return The {@link URL}
-     */
-    public URL getUrl() {
-        return userDataURL;
-    }
-
-    /**
-     * Set the URL used to store and read users. 
-     * 
-     * @param userDataURL
-     *            A {@link URL} containing users
-     */
-    public void setUrl(URL userDataURL) {
-        this.userDataURL = userDataURL;
-    }
-    
     /**
      * Retrieve the password encryptor used by user managers created by this factory
      * @return The password encryptor. Default to {@link Md5PasswordEncryptor}
@@ -132,11 +81,11 @@ public class XpropertiesUserManagerFactory implements UserManagerFactory {
         this.passwordEncryptor = passwordEncryptor;
     }
 
-    public Properties getProperties() {
-        return properties;
+    public Properties getUserProperties() {
+        return userProperties;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
+    public void setUserProperties(Properties userProperties) {
+        this.userProperties = userProperties;
     }
 }

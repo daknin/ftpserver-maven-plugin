@@ -22,7 +22,13 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
     protected int port;
 
     @Parameter(property = "skip", defaultValue = "false")
-    private boolean skip;
+    protected boolean skip;
+
+    @Parameter(property = "username", defaultValue = "admin")
+    protected String username;
+
+    @Parameter(property = "password", defaultValue = "admin")
+    protected String password;
 
     public String getConfigLocation() {
         return configLocation;
@@ -62,5 +68,21 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
