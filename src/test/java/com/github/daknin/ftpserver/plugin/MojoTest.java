@@ -24,17 +24,17 @@ public class MojoTest {
         startMojo.setMavenProject(project);
         startMojo.setServerRoot(new File(userDir + "/target/ftpserver"));
         startMojo.setConfigLocation("classpath:ftpd-plugin.xml");
-        startMojo.setUsername("admin");
-        startMojo.setPassword("admin");
+        startMojo.setUsername("myuser");
+        startMojo.setPassword("mypassword");
         startMojo.setPort(2121);
         startMojo.execute();
 
         FTPClient ftp = new FTPClient();
         ftp.connect("localhost", 2121);
-        ftp.login("admin", "admin");
+        ftp.login("myuser", "mypassword");
         int reply = ftp.getReplyCode();
         assertTrue(FTPReply.isPositiveCompletion(reply));
-        assertTrue("Can't login with admin user",ftp.isConnected());
+        assertTrue("Can't login with user", ftp.isConnected());
         ftp.disconnect();
 
         FtpServerStopMojo stopMojo = new FtpServerStopMojo();
