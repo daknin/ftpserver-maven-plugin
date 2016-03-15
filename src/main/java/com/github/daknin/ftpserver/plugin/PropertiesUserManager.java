@@ -48,8 +48,8 @@ import org.slf4j.LoggerFactory;
  * <p>Properties file based <code>UserManager</code> implementation. We use
  * <code>user.userProperties</code> file to store user data.</p>
  *
- * </p>The file will use the following userProperties for storing users:</p>
- * <table>
+ * <p>The file will use the following userProperties for storing users:</p>
+ * <table summary="">
  * <tr>
  *      <th>Property</th>
  *      <th>Documentation</th>
@@ -121,6 +121,9 @@ public class PropertiesUserManager extends AbstractUserManager {
 
     /**
      * Internal constructor, do not use directly. Use {@link PropertiesUserManagerFactory} instead.
+     * @param passwordEncryptor passwordEncryptor
+     * @param adminName adminName
+     * @param userProperties userProperties
      */
     public PropertiesUserManager(PasswordEncryptor passwordEncryptor, String adminName, Properties userProperties) {
         super(adminName, passwordEncryptor);
