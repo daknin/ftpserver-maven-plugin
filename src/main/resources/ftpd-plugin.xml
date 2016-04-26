@@ -10,7 +10,7 @@
 
     <context:property-placeholder/>
 
-    <ftpserver:server id="ftpServer">
+    <ftpserver:server id="ftpServer" max-logins="100" max-anon-logins="100">
         <ftpserver:listeners>
             <ftpserver:listener name="default">
                 <ref bean="nioListener"/>
