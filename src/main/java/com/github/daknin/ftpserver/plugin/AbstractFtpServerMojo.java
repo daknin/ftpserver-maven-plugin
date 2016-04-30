@@ -30,6 +30,12 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
     @Parameter(property = "password", defaultValue = "admin")
     protected String password;
 
+    @Parameter(property = "maxLogins", defaultValue = "10")
+    protected int maxLogins = 10;
+
+    @Parameter(property = "maxAnonymousLogins", defaultValue = "10")
+    protected int maxAnonymousLogins = 10;
+
     public String getConfigLocation() {
         return configLocation;
     }
@@ -84,5 +90,21 @@ public abstract class AbstractFtpServerMojo extends AbstractMojo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getMaxLogins() {
+        return maxLogins;
+    }
+
+    public void setMaxLogins(int maxLogins) {
+        this.maxLogins = maxLogins;
+    }
+
+    public int getMaxAnonymousLogins() {
+        return maxAnonymousLogins;
+    }
+
+    public void setMaxAnonymousLogins(int maxAnonymousLogins) {
+        this.maxAnonymousLogins = maxAnonymousLogins;
     }
 }

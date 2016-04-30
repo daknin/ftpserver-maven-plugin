@@ -54,6 +54,8 @@ public class FtpServerRunMojo extends AbstractFtpServerMojo {
         ftpdProperties.setProperty("ftp.server.root", serverRoot.getAbsolutePath());
         ftpdProperties.setProperty("ftp.server.username", username);
         ftpdProperties.setProperty("ftp.server.password", password);
+        ftpdProperties.setProperty("ftp.server.maxLogins", String.valueOf(maxLogins));
+        ftpdProperties.setProperty("ftp.server.maxAnonymousLogins", String.valueOf(maxAnonymousLogins));
         PropertiesPropertySource ftpdPropertiesPropertySource = new PropertiesPropertySource("ftpdPropertiesPropertySource", ftpdProperties);
         ctx.getEnvironment().getPropertySources().addLast(ftpdPropertiesPropertySource);
         ctx.refresh();

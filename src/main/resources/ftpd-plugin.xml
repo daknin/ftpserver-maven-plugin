@@ -19,8 +19,8 @@
     </bean>
 
     <bean id="connectionConfig" class="com.github.daknin.ftpserver.plugin.spring.ConnectionConfigFactoryBean">
-        <property name="maxLogins" value="100"/>
-        <property name="maxAnonymousLogins" value="100"/>
+        <property name="maxLogins" value="${ftp.server.maxLogins}"/>
+        <property name="maxAnonymousLogins" value="${ftp.server.maxAnonymousLogins}"/>
     </bean>
 
     <bean id="userProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
